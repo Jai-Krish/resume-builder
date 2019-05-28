@@ -6,10 +6,10 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule, //
       ],
       declarations: [
-        AppComponent
+        AppComponent, //
       ],
     }).compileComponents();
   }));
@@ -30,6 +30,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to resume-builder!');
+    expect(compiled.querySelector('h1').textContent).toContain(
+      'Welcome to resume-builder!'
+    );
   });
 });
