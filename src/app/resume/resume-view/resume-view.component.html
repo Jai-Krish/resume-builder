@@ -1,1 +1,10 @@
-<div fxFlexFill app-content-block [schemaRefs]="schemasRef" [data]="data"></div>
+<div fxFlexFill fxLayout="row">
+  <div
+    fxFlexFill
+    fxFlex="50"
+    app-content-block
+    [schemaRefs]="schemasRef"
+    [data]="data"
+  ></div>
+  <app-grid-edit fxFlex="50" fxFlexFill></app-grid-edit>
+</div>

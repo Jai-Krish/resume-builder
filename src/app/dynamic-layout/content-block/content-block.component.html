@@ -4,11 +4,12 @@
       <ng-container *ngSwitchCase="FieldTypes.container">
         <div
           app-content-block
-          [gdAreas]="schema.gridAreas.join(' | ')"
+          [gdAreas]="formatGridAreas(schema.gridAreas)"
           [gdArea]="schema.gridArea"
-          [gdRows]="schema.gridRows.join(' ')"
+          [gdRows]="schema.gridRows?.join(' ')"
           [schemaRefs]="schema.child"
           [data]="data"
+          (click)="editGrid(schema.path, schema.gridAreas)"
         ></div>
       </ng-container>
       <ng-container *ngSwitchCase="FieldTypes.text">

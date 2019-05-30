@@ -1,0 +1,23 @@
+<div
+  cdkDropList
+  [cdkDropListData]="gridData"
+  class="example-list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div class="example-box" *ngFor="let row of gridData; let i = index" cdkDrag>
+    <div
+      cdkDropList
+      [id]="'list-' + i"
+      [cdkDropListConnectedTo]="createListIdArray(gridData.length)"
+      [cdkDropListData]="row"
+      cdkDropListOrientation="horizontal"
+      class="example-list2"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div class="example-box2" *ngFor="let col of row" cdkDrag>
+        {{ col }}
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="saveGridAreas()">Save</button>

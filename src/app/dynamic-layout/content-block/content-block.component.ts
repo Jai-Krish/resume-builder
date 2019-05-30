@@ -8,8 +8,7 @@ import {
 import { Schema, FieldTypes } from '../dynamic-layout';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { DynamicLayoutService } from '../dynamic-layout.service';
 
 @Component({
   selector: '[app-content-block]',
@@ -24,26 +23,39 @@ export class ContentBlockComponent implements OnChanges, OnInit {
   public schemas: Observable<Schema>[];
   public FieldTypes = FieldTypes;
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private layoutSrv: DynamicLayoutService) {}
 
   ngOnInit() {
     console.log('data', this.data);
   }
 
+  editGrid(path: string, grid: string[][]) {
+    this.layoutSrv.currentGridArea.next({ path, data: grid });
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.schemaRefs) {
-      this.schemas = this.schemaRefs.map(res =>
-        this.db
-          .doc<Schema>(res)
-          .valueChanges()
-          .pipe(
-            map(schema => {
-              schema.path = res.path;
-              schema.id = res.id;
-              return schema;
-            })
-          )
-      );
+      this.schemas = this.schemaRefs.map(res => this.layoutSrv.getSchema(res));
     }
+  }
+
+  formatGridAreas(grid: string[][]) {
+    const colLength = grid.reduce(
+      (acc, cur) => (cur.length > acc ? cur.length : acc),
+      0
+    );
+    return grid
+      .map(res => {
+        if (res.length === colLength) {
+          return res.join(' ');
+        } else {
+          const temp = [];
+          for (let i = res.length; i < colLength; i++) {
+            temp.push(res.length > 0 ? res[res.length - 1] : '.');
+          }
+          return [res.join(' '), temp.join(' ')].join(' ');
+        }
+      })
+      .join(' | ');
   }
 }
