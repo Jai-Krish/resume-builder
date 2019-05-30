@@ -10,13 +10,15 @@ import { DocumentReference } from '@angular/fire/firestore';
 export class ResumeViewComponent implements OnInit {
   public basicInfo = {};
   public schemasRef: DocumentReference[];
+  public data: { [key: string]: any };
 
   constructor(private resumeSrv: ResumeService) {}
 
   ngOnInit() {
     this.resumeSrv.getBasicInfo().subscribe(res => {
       this.basicInfo = res[0];
-      console.log(res);
+      this.data = res[0];
+      console.log(this.data);
     });
     this.schemasRef = [this.resumeSrv.getSchemaRef()];
   }

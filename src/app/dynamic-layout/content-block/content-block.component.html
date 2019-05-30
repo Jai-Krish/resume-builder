@@ -8,11 +8,12 @@
           [gdArea]="schema.gridArea"
           [gdRows]="schema.gridRows.join(' ')"
           [schemaRefs]="schema.child"
+          [data]="data"
         ></div>
       </ng-container>
       <ng-container *ngSwitchCase="FieldTypes.text">
         <div [gdArea]="schema.gridArea" [ngStyle]="schema.style">
-          {{ schema.field }} {{ schema.path }}
+          {{ data[schema.field] }}
         </div>
       </ng-container>
       <div *ngSwitchDefault>output2</div>
