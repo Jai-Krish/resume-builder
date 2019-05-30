@@ -5,6 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
+    apiKey: 'AIzaSyBNbm7omM5pF582rTHjU_RkHBWO_Q8bmko',
+    authDomain: 'resume-builder-47784.firebaseapp.com',
+    databaseURL: 'https://resume-builder-47784.firebaseio.com',
+    projectId: 'resume-builder-47784',
+    storageBucket: 'resume-builder-47784.appspot.com',
+    messagingSenderId: '402382117052',
+    appId: '1:402382117052:web:0b8893c9dec34e98',
   },
 };
 

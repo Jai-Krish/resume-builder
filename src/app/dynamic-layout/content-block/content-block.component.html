@@ -1,0 +1,21 @@
+<ng-container *ngFor="let schema$ of schemas">
+  <ng-container *ngIf="schema$ | async as schema">
+    <ng-container [ngSwitch]="schema.type">
+      <ng-container *ngSwitchCase="FieldTypes.container">
+        <div
+          app-content-block
+          [gdAreas]="schema.gridAreas.join(' | ')"
+          [gdArea]="schema.gridArea"
+          [gdRows]="schema.gridRows.join(' ')"
+          [schemaRefs]="schema.child"
+        ></div>
+      </ng-container>
+      <ng-container *ngSwitchCase="FieldTypes.text">
+        <div [gdArea]="schema.gridArea" [ngStyle]="schema.style">
+          {{ schema.field }} {{ schema.path }}
+        </div>
+      </ng-container>
+      <div *ngSwitchDefault>output2</div>
+    </ng-container>
+  </ng-container>
+</ng-container>
