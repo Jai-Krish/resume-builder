@@ -1,0 +1,23 @@
+<div
+  [style.height]="dimension.height + 'px'"
+  [style.width]="dimension.width + 'px'"
+  class="wrapper"
+>
+  <div class="zone top" (mouseover)="mouseover($event, 'y')"></div>
+  <div class="zone bottom" (mouseover)="mouseover($event, 'y')"></div>
+  <div class="zone left" (mouseover)="mouseover($event, 'x')"></div>
+  <div class="zone right" (mouseover)="mouseover($event, 'x')"></div>
+</div>
+
+<div
+  class="drag-handle"
+  cdkDrag
+  [cdkDragLockAxis]="dragHandle.axis"
+  (cdkDragMoved)="dragging($event)"
+  (cdkDragReleased)="dragEnded($event)"
+  [style.height]="dragHandle.style.height"
+  [style.width]="dragHandle.style.width"
+  [style.top]="dragHandle.style.top"
+  [style.left]="dragHandle.style.left"
+  [style.cursor]="dragHandle.axis === 'x' ? 'e-resize' : 'n-resize'"
+></div>
