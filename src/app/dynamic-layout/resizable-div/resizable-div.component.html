@@ -1,6 +1,7 @@
+{{ dimension.x }} {{ dimension.y }}
 <div
-  [style.height]="dimension.height + 'px'"
-  [style.width]="dimension.width + 'px'"
+  [style.height]="dimension.y + 'px'"
+  [style.width]="dimension.x + 'px'"
   class="wrapper"
 >
   <div class="zone top" (mouseover)="mouseover($event, 'y')"></div>
@@ -15,6 +16,7 @@
   [cdkDragLockAxis]="dragHandle.axis"
   (cdkDragMoved)="dragging($event)"
   (cdkDragReleased)="dragEnded($event)"
+  (cdkDragStarted)="isDragging = true"
   [style.height]="dragHandle.style.height"
   [style.width]="dragHandle.style.width"
   [style.top]="dragHandle.style.top"

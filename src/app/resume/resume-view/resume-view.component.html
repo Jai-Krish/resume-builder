@@ -1,4 +1,4 @@
-<div fxFlexFill fxLayout="row">
+<div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
   <div
     fxFlexFill
     fxFlex="50"
@@ -6,5 +6,14 @@
     [schemaRefs]="schemasRef"
     [data]="data"
   ></div>
-  <app-grid-edit fxFlex="50" fxFlexFill></app-grid-edit>
+  <div fxFlex="50" fxFlexFill fxLayout="column">
+    <app-grid-edit fxFlex="50"></app-grid-edit>
+
+    <app-resizable-div
+      fxFlex="50"
+      [height]="100"
+      [width]="100"
+      [steps]="steps"
+    ></app-resizable-div>
+  </div>
 </div>

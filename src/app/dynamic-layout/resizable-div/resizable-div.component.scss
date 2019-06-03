@@ -10,13 +10,15 @@
   height: 5px;
   width: 5px;
   position: fixed;
-  background-color: transparent;
+  background-color: blue;
+  opacity: 0;
   cursor: n-resize;
 }
 
 .zone {
   position: absolute;
-  background-color: transparent;
+  background-color: green;
+  opacity: 0;
   &.top {
     height: 10px;
     width: 100%;
