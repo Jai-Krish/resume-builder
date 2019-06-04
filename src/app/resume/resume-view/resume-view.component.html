@@ -1,19 +1,18 @@
 <div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
-  <div
-    fxFlexFill
-    fxFlex="50"
-    app-content-block
-    [schemaRefs]="schemasRef"
-    [data]="data"
-  ></div>
   <div fxFlex="50" fxFlexFill fxLayout="column">
     <app-grid-edit fxFlex="50"></app-grid-edit>
-
-    <app-resizable-div
+    <div
       fxFlex="50"
-      [height]="100"
-      [width]="100"
-      [steps]="steps"
-    ></app-resizable-div>
+      app-content-block
+      [schemaRefs]="schemasRef"
+      [data]="data"
+    ></div>
   </div>
+  <app-resizable-div
+    fxFlex="50"
+    fxFlexFill
+    [height]="100"
+    [width]="100"
+    [steps]="steps"
+  ></app-resizable-div>
 </div>

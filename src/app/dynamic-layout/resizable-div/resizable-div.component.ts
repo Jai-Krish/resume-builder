@@ -12,7 +12,7 @@ export class ResizableDivComponent implements OnInit {
   @Input()
   private width?: number;
   @Input()
-  private steps: number | StepsCfg = 1;
+  public steps: number | StepsCfg = 1;
 
   dimension = {
     x: 0,
@@ -32,21 +32,45 @@ export class ResizableDivComponent implements OnInit {
     y: 0,
   };
   isDragging = false;
+  side: number;
+
   @ViewChild(CdkDrag, { static: true })
   dragHandleCmp: CdkDrag;
 
   constructor(private elementRef: ElementRef) {}
 
   ngOnInit() {
-    const boundingBox = this.elementRef.nativeElement.getBoundingClientRect();
-    this.height = this.height ? this.height : boundingBox.height;
-    this.dimension.y = this.height;
-    this.width = this.width ? this.width : boundingBox.width;
+    if (this.steps && typeof this.steps !== 'number') {
+      this.width = 0;
+      for (
+        let i = this.steps.x.start;
+        i < this.steps.x.start + this.steps.x.count;
+        i++
+      ) {
+        this.width += this.steps.x.grid[i];
+      }
+      this.height = 0;
+      for (
+        let i = this.steps.y.start;
+        i < this.steps.y.start + this.steps.y.count;
+        i++
+      ) {
+        this.height += this.steps.y.grid[i];
+      }
+    } else {
+      const boundingBox = this.elementRef.nativeElement
+        .getElementsByClassName('wrapper')[0]
+        .getBoundingClientRect();
+      this.height = this.height ? this.height : boundingBox.height;
+      this.width = this.width ? this.width : boundingBox.width;
+    }
     this.dimension.x = this.width;
+    this.dimension.y = this.height;
   }
 
-  mouseover(event: MouseEvent, axis: string) {
+  mouseover(event: MouseEvent, axis: string, side) {
     if (!this.isDragging) {
+      this.side = side;
       this.dragHandleCmp.reset();
       this.dragHandle.axis = axis;
       this.dragOffset.x = 0;
@@ -85,40 +109,71 @@ export class ResizableDivComponent implements OnInit {
   }
 
   private resize(event: CdkDragMove, axis: string) {
-    const isPositive = event.delta[axis] > 0;
-    if (isPositive) {
-      const step = this.steps[axis].grid[this.steps[axis].position + 1]; //Get next from array
+    const isGrowing =
+      this.side > 0 ? event.delta[axis] > 0 : event.delta[axis] < 0;
+    if (isGrowing) {
+      // Growing
+      const gridIndex =
+        this.side > 0
+          ? this.steps[axis].start + this.steps[axis].count
+          : this.steps[axis].start - 1;
+      const step = this.steps[axis].grid[gridIndex];
       if (!step) {
-        // Already at the last grid
+        // No grids to occupy
         return;
       }
       const roundup = this.roundup(
-        event.distance[axis] + this.dragOffset[axis],
+        this.side * (event.distance[axis] + this.dragOffset[axis]),
         step / 2,
         step
       );
       const newDimension = this.dimension[axis] + roundup;
       if (this.dimension[axis] < newDimension) {
         this.dimension[axis] = newDimension;
-        this.steps[axis].position = this.steps[axis].position + 1;
-        this.dragOffset[axis] -= step;
+        if (this.side > 0) {
+          this.steps[axis].count = this.steps[axis].count + 1;
+        } else {
+          this.steps[axis].start = this.steps[axis].start - 1;
+          this.steps[axis].count = this.steps[axis].count + 1;
+        }
+        this.dragOffset[axis] = this.dragOffset[axis] - step * this.side;
       }
     } else {
-      const step = this.steps[axis].grid[this.steps[axis].position];
-      if (!this.steps[axis].grid[this.steps[axis].position - 1]) {
-        // Already at the first grid
+      // Shrinking
+      if (this.steps[axis].count === 1) {
+        // At the min size
         return;
       }
-      const roundup = this.roundup(
-        event.distance[axis] + this.dragOffset[axis] + step,
-        step / 2,
-        step
-      );
-      const newWidth = this.dimension[axis] + roundup;
-      if (this.dimension[axis] >= newWidth) {
-        this.dimension[axis] = newWidth - step;
-        this.steps[axis].position = this.steps[axis].position - 1;
-        this.dragOffset[axis] += step;
+      const gridIndex =
+        this.side > 0
+          ? this.steps[axis].start + (this.steps[axis].count - 1)
+          : this.steps[axis].start;
+      const step = this.steps[axis].grid[gridIndex];
+      if (this.side > 0) {
+        const roundup = this.roundup(
+          event.distance[axis] + this.dragOffset[axis] + step,
+          step / 2,
+          step
+        );
+        const newWidth = this.dimension[axis] + roundup;
+        if (this.dimension[axis] >= newWidth) {
+          this.dimension[axis] = newWidth - step;
+          this.steps[axis].count = this.steps[axis].count - 1;
+          this.dragOffset[axis] += step;
+        }
+      } else {
+        const roundup = this.roundup(
+          event.distance[axis] + this.dragOffset[axis],
+          step / 2,
+          step
+        );
+        const newWidth = this.dimension[axis] - roundup;
+        if (this.dimension[axis] > newWidth) {
+          this.dimension[axis] = newWidth;
+          this.steps[axis].count = this.steps[axis].count - 1;
+          this.steps[axis].start = this.steps[axis].start + 1;
+          this.dragOffset[axis] -= step;
+        }
       }
     }
   }
@@ -136,10 +191,12 @@ export class ResizableDivComponent implements OnInit {
 export interface StepsCfg {
   x: {
     grid: number[];
-    position: number;
+    start: number;
+    count: number;
   };
   y: {
     grid: number[];
-    position: number;
+    start: number;
+    count: number;
   };
 }
