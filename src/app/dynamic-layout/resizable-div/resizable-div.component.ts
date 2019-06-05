@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  ElementRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CdkDragMove, CdkDragRelease, CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -13,10 +21,18 @@ export class ResizableDivComponent implements OnInit {
   private width?: number;
   @Input()
   public steps: number | StepsCfg = 1;
+  @Output()
+  public stepsChange = new EventEmitter<StepsCfg>();
+  @Input()
+  public canGrow: (str: number, axis: string) => boolean;
 
   dimension = {
     x: 0,
     y: 0,
+    translate: {
+      x: 0,
+      y: 0,
+    },
   };
   public dragHandle = {
     axis: 'x',
@@ -57,6 +73,20 @@ export class ResizableDivComponent implements OnInit {
       ) {
         this.height += this.steps.y.grid[i];
       }
+      this.dimension.translate.x =
+        this.steps.x.start > 0
+          ? this.steps.x.grid
+              .slice()
+              .splice(0, this.steps.x.start)
+              .reduce((acc, cur) => (acc += cur))
+          : 0;
+      this.dimension.translate.y =
+        this.steps.y.start > 0
+          ? this.steps.y.grid
+              .slice()
+              .splice(0, this.steps.y.start)
+              .reduce((acc, cur) => (acc += cur))
+          : 0;
     } else {
       const boundingBox = this.elementRef.nativeElement
         .getElementsByClassName('wrapper')[0]
@@ -129,14 +159,19 @@ export class ResizableDivComponent implements OnInit {
       );
       const newDimension = this.dimension[axis] + roundup;
       if (this.dimension[axis] < newDimension) {
+        if (!this.canGrow(this.side, axis)) {
+          return;
+        }
         this.dimension[axis] = newDimension;
         if (this.side > 0) {
           this.steps[axis].count = this.steps[axis].count + 1;
         } else {
+          this.dimension.translate[axis] -= step;
           this.steps[axis].start = this.steps[axis].start - 1;
           this.steps[axis].count = this.steps[axis].count + 1;
         }
         this.dragOffset[axis] = this.dragOffset[axis] - step * this.side;
+        this.stepsChange.emit(this.steps as StepsCfg);
       }
     } else {
       // Shrinking
@@ -150,6 +185,7 @@ export class ResizableDivComponent implements OnInit {
           : this.steps[axis].start;
       const step = this.steps[axis].grid[gridIndex];
       if (this.side > 0) {
+        // Right or Bottom
         const roundup = this.roundup(
           event.distance[axis] + this.dragOffset[axis] + step,
           step / 2,
@@ -160,8 +196,10 @@ export class ResizableDivComponent implements OnInit {
           this.dimension[axis] = newWidth - step;
           this.steps[axis].count = this.steps[axis].count - 1;
           this.dragOffset[axis] += step;
+          this.stepsChange.emit(this.steps as StepsCfg);
         }
       } else {
+        // Left or Top
         const roundup = this.roundup(
           event.distance[axis] + this.dragOffset[axis],
           step / 2,
@@ -170,9 +208,11 @@ export class ResizableDivComponent implements OnInit {
         const newWidth = this.dimension[axis] - roundup;
         if (this.dimension[axis] > newWidth) {
           this.dimension[axis] = newWidth;
+          this.dimension.translate[axis] += step;
           this.steps[axis].count = this.steps[axis].count - 1;
           this.steps[axis].start = this.steps[axis].start + 1;
           this.dragOffset[axis] -= step;
+          this.stepsChange.emit(this.steps as StepsCfg);
         }
       }
     }
@@ -189,6 +229,7 @@ export class ResizableDivComponent implements OnInit {
 }
 
 export interface StepsCfg {
+  label?: string;
   x: {
     grid: number[];
     start: number;

@@ -1,0 +1,23 @@
+:host {
+  position: relative;
+}
+
+app-resizable-div {
+  position: absolute;
+}
+
+.label-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  div {
+    margin: auto;
+  }
+}
+
+.btn-save {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
