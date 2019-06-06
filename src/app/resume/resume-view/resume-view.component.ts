@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ResumeService } from '../resume.service';
 import { DocumentReference } from '@angular/fire/firestore';
-import { StepsCfg } from 'src/app/dynamic-layout/resizable-div/resizable-div.component';
-import { DynamicLayoutService } from 'src/app/dynamic-layout/dynamic-layout.service';
 
 @Component({
   selector: 'app-resume-view',
@@ -12,12 +10,10 @@ import { DynamicLayoutService } from 'src/app/dynamic-layout/dynamic-layout.serv
 export class ResumeViewComponent implements OnInit {
   public basicInfo = {};
   public schemasRef: DocumentReference[];
+  public currGrid: { path: string; data: string[][] };
   public data: { [key: string]: any };
 
-  constructor(
-    private resumeSrv: ResumeService,
-    private layoutSrv: DynamicLayoutService
-  ) {}
+  constructor(private resumeSrv: ResumeService) {}
 
   ngOnInit() {
     this.resumeSrv.getBasicInfo().subscribe(res => {
@@ -26,5 +22,9 @@ export class ResumeViewComponent implements OnInit {
       console.log(this.data);
     });
     this.schemasRef = [this.resumeSrv.getSchemaRef()];
+  }
+
+  saveGrid() {
+    this.resumeSrv.saveGrid(this.currGrid.data, this.currGrid.path);
   }
 }

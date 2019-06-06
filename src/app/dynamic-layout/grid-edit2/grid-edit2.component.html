@@ -4,13 +4,10 @@
   (stepsChange)="onStepsChange()"
   [canGrow]="canGrow(steps)"
   [style.background-color]="'#' + colors[steps.label]"
-  ><div class="label-container">
+>
+  <div class="label-container">
     <div>
       {{ steps.label }}
     </div>
-  </div></app-resizable-div
->
-
-<button class="btn-save" (click)="saveGridAreas()">
-  Save
-</button>
+  </div>
+</app-resizable-div>

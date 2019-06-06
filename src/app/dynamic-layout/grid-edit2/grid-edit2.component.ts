@@ -1,18 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { StepsCfg } from '../resizable-div/resizable-div.component';
-import { DynamicLayoutService } from '../dynamic-layout.service';
 
 @Component({
   selector: 'app-grid-edit2',
   templateUrl: './grid-edit2.component.html',
   styleUrls: ['./grid-edit2.component.scss'],
 })
-export class GridEdit2Component implements OnInit {
-  multiple = 3;
+export class GridEdit2Component implements OnInit, OnChanges {
+  multiple = 4;
   gridCol = [33, 33, 33].map(res => res * this.multiple);
   gridRow = [33, 33, 33].map(res => res * this.multiple);
+
+  @Input()
   grid: string[][];
-  path: string;
+  @Output()
+  gridChange = new EventEmitter<string[][]>();
+
+  // path: string;
   res: {
     path: string;
     data: string[][];
@@ -20,24 +32,23 @@ export class GridEdit2Component implements OnInit {
   colors = {};
   public stepsArr: StepsCfg[];
 
-  constructor(private layoutSrv: DynamicLayoutService) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.layoutSrv.currentGridArea.subscribe(res => {
-      if (res.path) {
-        this.path = res.path;
-        this.grid = res.data;
+  ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.grid) {
+      if (this.grid) {
         this.stepsArr = this.createGridObj(
           this.grid,
           this.gridRow,
           this.gridCol
         );
       } else {
-        this.path = undefined;
         this.grid = undefined;
         this.stepsArr = undefined;
       }
-    });
+    }
   }
 
   onStepsChange() {
@@ -140,9 +151,5 @@ export class GridEdit2Component implements OnInit {
       });
     });
     return Object.values(result);
-  }
-
-  saveGridAreas() {
-    this.layoutSrv.saveGridAreas(this.path, this.grid);
   }
 }

@@ -1,5 +1,6 @@
 :host {
   position: relative;
+  overflow: auto;
 }
 
 app-resizable-div {
@@ -13,6 +14,7 @@ app-resizable-div {
   height: 100%;
   div {
     margin: auto;
+    user-select: none;
   }
 }
 

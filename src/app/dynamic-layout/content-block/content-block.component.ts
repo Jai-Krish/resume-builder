@@ -4,6 +4,8 @@ import {
   OnChanges,
   SimpleChanges,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { Schema, FieldTypes } from '../dynamic-layout';
 import { DocumentReference } from '@angular/fire/firestore';
@@ -20,6 +22,8 @@ export class ContentBlockComponent implements OnChanges, OnInit {
   private schemaRefs: DocumentReference[];
   @Input()
   public data: { [key: string]: any };
+  @Output()
+  public curGrid = new EventEmitter<{ path: string; data: string[][] }>();
   public schemas: Observable<Schema>[];
   public FieldTypes = FieldTypes;
 
@@ -31,6 +35,7 @@ export class ContentBlockComponent implements OnChanges, OnInit {
 
   editGrid(path: string, grid: string[][]) {
     this.layoutSrv.currentGridArea.next({ path, data: grid });
+    this.curGrid.emit({ path, data: grid });
   }
 
   ngOnChanges(changes: SimpleChanges) {

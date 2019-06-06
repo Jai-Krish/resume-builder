@@ -1,14 +1,23 @@
 <div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="50" fxFlexFill fxLayout="column">
-    <app-grid-edit2 fxFlex="50"></app-grid-edit2>
     <div
       fxFlex="50"
       app-content-block
       [schemaRefs]="schemasRef"
       [data]="data"
+      (curGrid)="currGrid = $event"
     ></div>
+    <div fxFlex="50" fxFlexFill>
+      <app-grid-edit [gridData]="currGrid?.data"></app-grid-edit>
+    </div>
   </div>
-  <div fxFlex="50" fxFlexFill>
-    <app-grid-edit></app-grid-edit>
+  <div fxFlex="50" fxFlexFill fxLayout="column">
+    <app-grid-edit2 fxFlex="90" [grid]="currGrid?.data"></app-grid-edit2>
+
+    <div fxFlex="10">
+      <button fxFlexFill (click)="saveGrid()" [disabled]="!currGrid">
+        Save
+      </button>
+    </div>
   </div>
 </div>

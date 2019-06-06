@@ -1,5 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { DynamicLayoutService } from '../dynamic-layout.service';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -12,16 +11,12 @@ import {
   styleUrls: ['./grid-edit.component.scss'],
 })
 export class GridEditComponent implements OnInit {
+  @Input()
   public gridData: string[][];
   public path: string;
-  constructor(private layoutSrv: DynamicLayoutService) {}
+  constructor() {}
 
-  ngOnInit() {
-    this.layoutSrv.currentGridArea.subscribe(grid => {
-      this.gridData = grid.data;
-      this.path = grid.path;
-    });
-  }
+  ngOnInit() {}
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -47,10 +42,5 @@ export class GridEditComponent implements OnInit {
       result.push(`list-${i}`);
     }
     return result;
-  }
-
-  saveGridAreas() {
-    console.log('saveGridAreas', this.path, this.gridData);
-    this.layoutSrv.saveGridAreas(this.path, this.gridData);
   }
 }

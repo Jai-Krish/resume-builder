@@ -31,11 +31,4 @@ export class DynamicLayoutService {
         })
       );
   }
-
-  async saveGridAreas(path, gridAreas: string[][]) {
-    await this.db.doc(path).update({
-      gridAreas: gridAreas.map(res => res.join(' ')),
-    });
-    this.currentGridArea.next({ data: undefined, path: undefined });
-  }
 }
