@@ -1,0 +1,13 @@
+<div>
+  <input
+    *ngIf="unit !== ''"
+    type="number"
+    [value]="rowNumber"
+    (change)="onRowChange($event.target.value)"
+  />
+  <select [value]="unit" (change)="unitChanged($event.target.value)">
+    <option value="">auto</option>
+    <option value="%">%</option>
+    <option value="px">px</option>
+  </select>
+</div>

@@ -8,10 +8,6 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DynamicLayoutService {
-  public currentGridArea = new ReplaySubject<{
-    path: string;
-    data: string[][];
-  }>(1);
   constructor(private db: AngularFirestore) {}
 
   getSchema(ref: DocumentReference): Observable<Schema> {

@@ -7,10 +7,26 @@
           [gdAreas]="formatGridAreas(schema.gridAreas)"
           [gdArea]="schema.gridArea"
           [gdRows]="schema.gridRows?.join(' ')"
+          [gdColumns]="schema.gridColumns?.join(' ')"
           [schemaRefs]="schema.child"
+          [templates]="{ gdRow: gdRowsTemplate, gdCol: gdColsTemplate }"
           [data]="data"
-          (click)="editGrid(schema.path, schema.gridAreas)"
-        ></div>
+          (curGrid)="editGrid($event)"
+          (click)="editGrid(schema)"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              templates?.gdCol;
+              context: { $implicit: schema.gridColumns }
+            "
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              templates?.gdRow;
+              context: { $implicit: schema.gridRows }
+            "
+          ></ng-container>
+        </div>
       </ng-container>
       <ng-container *ngSwitchCase="FieldTypes.text">
         <div [gdArea]="schema.gridArea" [ngStyle]="schema.style">
@@ -21,3 +37,4 @@
     </ng-container>
   </ng-container>
 </ng-container>
+<ng-content></ng-content>

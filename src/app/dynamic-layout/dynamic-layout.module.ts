@@ -6,6 +6,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { GridEditComponent } from './grid-edit/grid-edit.component';
 import { ResizableDivComponent } from './resizable-div/resizable-div.component';
 import { GridEdit2Component } from './grid-edit2/grid-edit2.component';
+import { GridRowColComponent } from './grid-row-col/grid-row-col.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { GridEdit2Component } from './grid-edit2/grid-edit2.component';
     GridEditComponent,
     GridEdit2Component,
     ResizableDivComponent,
+    GridRowColComponent,
   ],
   imports: [CommonModule, FlexLayoutModule, DragDropModule],
   exports: [
@@ -20,6 +22,7 @@ import { GridEdit2Component } from './grid-edit2/grid-edit2.component';
     GridEditComponent,
     GridEdit2Component,
     ResizableDivComponent,
+    GridRowColComponent,
   ],
 })
 export class DynamicLayoutModule {}

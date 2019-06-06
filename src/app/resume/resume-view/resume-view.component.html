@@ -1,23 +1,64 @@
 <div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="50" fxFlexFill fxLayout="column">
-    <div
-      fxFlex="50"
-      app-content-block
-      [schemaRefs]="schemasRef"
-      [data]="data"
-      (curGrid)="currGrid = $event"
-    ></div>
-    <div fxFlex="50" fxFlexFill>
-      <app-grid-edit [gridData]="currGrid?.data"></app-grid-edit>
+    <div fxFlex="60">
+      <div
+        app-content-block
+        [schemaRefs]="schemasRef"
+        [data]="data"
+        [templates]="templates"
+        (curGrid)="currGrid = $event"
+        fxFlexFill
+      ></div>
+    </div>
+    <div fxFlex="40" fxFlexFill>
+      <app-grid-edit [gridData]="currGrid?.gridAreas"></app-grid-edit>
     </div>
   </div>
   <div fxFlex="50" fxFlexFill fxLayout="column">
-    <app-grid-edit2 fxFlex="90" [grid]="currGrid?.data"></app-grid-edit2>
+    <app-grid-edit2 fxFlex="90" [grid]="currGrid?.gridAreas"></app-grid-edit2>
 
-    <div fxFlex="10">
-      <button fxFlexFill (click)="saveGrid()" [disabled]="!currGrid">
+    <div fxFlex="10" fxLayout="row">
+      <button
+        fxFlexFill
+        fxFlex="50"
+        (click)="saveGrid()"
+        [disabled]="!currGrid"
+      >
         Save
+      </button>
+      <button
+        fxFlexFill
+        fxFlex="50"
+        (click)="
+          templates = templates
+            ? undefined
+            : { gdRow: gdRowsTemplate, gdCol: gdColsTemplate }
+        "
+        [disabled]="!currGrid"
+      >
+        Edit
       </button>
     </div>
   </div>
 </div>
+
+<ng-template #gdRowsTemplate let-gdRows>
+  <app-grid-row-col
+    *ngFor="let gdRow of gdRows; let i = index"
+    [row]="gdRow"
+    (rowChange)="gdRows[i] = $event"
+    gdColumn="-2 / span 1"
+    [gdRow]="i + 1 + ' / ' + (i + 2)"
+  ></app-grid-row-col>
+</ng-template>
+
+<ng-template #gdColsTemplate let-gdCols>
+  <app-grid-row-col
+    *ngFor="let gdCol of gdCols; let i = index"
+    [row]="gdCol"
+    (rowChange)="gdCols[i] = $event"
+    [gdColumn]="i + 1 + ' / ' + (i + 2)"
+    gdRow="-2 / span 1"
+    style="width: 0"
+  ></app-grid-row-col>
+</ng-template>

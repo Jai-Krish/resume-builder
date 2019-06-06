@@ -16,9 +16,12 @@ export class ResumeService {
     return this.db.doc<Schema>('/schemas/jbthsKOw7VqZhuu2SFKf').ref;
   }
 
-  saveGrid(gridAreas: string[][], path: string) {
-    return this.db.doc(path).update({
-      gridAreas: gridAreas.map(res => res.join(' ')),
+  saveGrid(schema) {
+    console.log(schema);
+    return this.db.doc(schema.path).update({
+      gridAreas: schema.gridAreas.map(res => res.join(' ')),
+      gridRows: schema.gridRows,
+      gridColumns: schema.gridColumns,
     });
   }
 }

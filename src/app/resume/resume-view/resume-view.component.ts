@@ -10,8 +10,9 @@ import { DocumentReference } from '@angular/fire/firestore';
 export class ResumeViewComponent implements OnInit {
   public basicInfo = {};
   public schemasRef: DocumentReference[];
-  public currGrid: { path: string; data: string[][] };
+  public currGrid;
   public data: { [key: string]: any };
+  templates;
 
   constructor(private resumeSrv: ResumeService) {}
 
@@ -25,6 +26,6 @@ export class ResumeViewComponent implements OnInit {
   }
 
   saveGrid() {
-    this.resumeSrv.saveGrid(this.currGrid.data, this.currGrid.path);
+    this.resumeSrv.saveGrid(this.currGrid);
   }
 }

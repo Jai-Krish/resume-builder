@@ -1,0 +1,12 @@
+div {
+  input {
+    width: 40px;
+  }
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+:host {
+  position: relative;
+}
