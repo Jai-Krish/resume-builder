@@ -11,3 +11,17 @@
     </div>
   </div>
 </app-resizable-div>
+<app-grid-row-col
+  *ngFor="let gdRow of grdRow; let i = index"
+  [row]="gdRow"
+  (rowChange)="grdRow[i] = $event"
+  [style.top.px]="(100 / grdRow.length) * (i + 1) * zoom"
+  [style.left.px]="100 * zoom + 50"
+></app-grid-row-col>
+<app-grid-row-col
+  *ngFor="let gdCol of grdCol; let i = index"
+  [row]="gdCol"
+  (rowChange)="grdCol[i] = $event"
+  [style.top.px]="100 * zoom + 50"
+  [style.left.px]="(100 / grdCol.length) * (i + 1) * zoom"
+></app-grid-row-col>

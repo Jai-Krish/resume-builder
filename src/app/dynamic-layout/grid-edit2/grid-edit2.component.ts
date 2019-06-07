@@ -15,12 +15,17 @@ import { StepsCfg } from '../resizable-div/resizable-div.component';
   styleUrls: ['./grid-edit2.component.scss'],
 })
 export class GridEdit2Component implements OnInit, OnChanges {
-  multiple = 4;
-  gridCol = [33, 33, 33].map(res => res * this.multiple);
-  gridRow = [33, 33, 33].map(res => res * this.multiple);
+  @Input()
+  zoom = 2;
+  gridCol: number[];
+  gridRow: number[];
 
   @Input()
   grid: string[][];
+  @Input()
+  grdRow: string[];
+  @Input()
+  grdCol: string[];
   @Output()
   gridChange = new EventEmitter<string[][]>();
 
@@ -38,15 +43,29 @@ export class GridEdit2Component implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.grid) {
+      if (!this.grid) {
+        this.grid = undefined;
+        this.stepsArr = undefined;
+      }
+    }
+    if (changes.grdRow) {
+      this.gridRow = this.grdRow
+        ? Array(this.grdRow.length).fill(100 / this.grdRow.length)
+        : [];
+    }
+    if (changes.grdCol) {
+      this.gridCol = this.grdCol
+        ? Array(this.grdCol.length).fill(100 / this.grdCol.length)
+        : [];
+    }
+
+    if (changes.grid || changes.grdRow || changes.grdCol || changes.zoom) {
       if (this.grid) {
         this.stepsArr = this.createGridObj(
           this.grid,
-          this.gridRow,
-          this.gridCol
+          this.gridRow.map(res => res * this.zoom),
+          this.gridCol.map(res => res * this.zoom)
         );
-      } else {
-        this.grid = undefined;
-        this.stepsArr = undefined;
       }
     }
   }

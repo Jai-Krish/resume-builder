@@ -15,12 +15,18 @@
     </div>
   </div>
   <div fxFlex="50" fxFlexFill fxLayout="column">
-    <app-grid-edit2 fxFlex="90" [grid]="currGrid?.gridAreas"></app-grid-edit2>
+    <app-grid-edit2
+      fxFlex="90"
+      [grid]="currGrid?.gridAreas"
+      [grdRow]="currGrid?.gridRows"
+      [grdCol]="currGrid?.gridColumns"
+      [zoom]="zoom"
+    ></app-grid-edit2>
 
     <div fxFlex="10" fxLayout="row">
       <button
         fxFlexFill
-        fxFlex="50"
+        fxFlex="45"
         (click)="saveGrid()"
         [disabled]="!currGrid"
       >
@@ -28,7 +34,7 @@
       </button>
       <button
         fxFlexFill
-        fxFlex="50"
+        fxFlex="45"
         (click)="
           templates = templates
             ? undefined
@@ -38,6 +44,12 @@
       >
         Edit
       </button>
+      <input
+        fxFlex="10"
+        type="number"
+        [value]="zoom"
+        (change)="zoom = $event.target.value"
+      />
     </div>
   </div>
 </div>
