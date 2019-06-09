@@ -7,6 +7,7 @@ import { GridEditComponent } from './grid-edit/grid-edit.component';
 import { ResizableDivComponent } from './resizable-div/resizable-div.component';
 import { GridEdit2Component } from './grid-edit2/grid-edit2.component';
 import { GridRowColComponent } from './grid-row-col/grid-row-col.component';
+import { AppMaterialModule } from '../app-material/app-material.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { GridRowColComponent } from './grid-row-col/grid-row-col.component';
     ResizableDivComponent,
     GridRowColComponent,
   ],
-  imports: [CommonModule, FlexLayoutModule, DragDropModule],
+  imports: [CommonModule, FlexLayoutModule, DragDropModule, AppMaterialModule],
   exports: [
     ContentBlockComponent,
     GridEditComponent,

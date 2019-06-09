@@ -4,11 +4,34 @@
   (stepsChange)="onStepsChange()"
   [canGrow]="canGrow(steps)"
   [style.background-color]="'#' + colors[steps.label]"
+  [class.selected]="swapTarget === steps"
 >
-  <div class="label-container">
+  <div class="label-container" (click)="triggerSwap(steps)">
     <div>
       {{ steps.label }}
     </div>
+    <mat-icon
+      *ngIf="swapTarget === steps"
+      aria-hidden="false"
+      aria-label="swap icon"
+      >cached</mat-icon
+    >
+  </div>
+</app-resizable-div>
+<app-resizable-div
+  *ngFor="let steps of emptyArr"
+  [steps]="steps"
+  [isEditable]="false"
+  (click)="triggerSwap(steps)"
+  [class.selected]="swapTarget === steps"
+>
+  <div class="empty-container">
+    <mat-icon
+      *ngIf="swapTarget === steps"
+      aria-hidden="false"
+      aria-label="swap icon"
+      >cached</mat-icon
+    >
   </div>
 </app-resizable-div>
 <app-grid-row-col

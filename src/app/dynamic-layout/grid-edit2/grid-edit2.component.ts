@@ -17,9 +17,6 @@ import { StepsCfg } from '../resizable-div/resizable-div.component';
 export class GridEdit2Component implements OnInit, OnChanges {
   @Input()
   zoom = 2;
-  gridCol: number[];
-  gridRow: number[];
-
   @Input()
   grid: string[][];
   @Input()
@@ -29,13 +26,15 @@ export class GridEdit2Component implements OnInit, OnChanges {
   @Output()
   gridChange = new EventEmitter<string[][]>();
 
-  // path: string;
-  res: {
-    path: string;
-    data: string[][];
-  };
   colors = {};
-  public stepsArr: StepsCfg[];
+  stepsArr: StepsCfg[];
+  emptyArr: StepsCfg[] = [];
+  swapTarget: StepsCfg;
+
+  private gridCol: number[];
+  private gridRow: number[];
+  private gridColZoomed: number[];
+  private gridRowZoomed: number[];
 
   constructor() {}
 
@@ -59,12 +58,14 @@ export class GridEdit2Component implements OnInit, OnChanges {
         : [];
     }
 
+    this.gridRowZoomed = this.gridRow.map(res => res * this.zoom);
+    this.gridColZoomed = this.gridCol.map(res => res * this.zoom);
     if (changes.grid || changes.grdRow || changes.grdCol || changes.zoom) {
       if (this.grid) {
         this.stepsArr = this.createGridObj(
           this.grid,
-          this.gridRow.map(res => res * this.zoom),
-          this.gridCol.map(res => res * this.zoom)
+          this.gridRowZoomed,
+          this.gridColZoomed
         );
       }
     }
@@ -82,6 +83,17 @@ export class GridEdit2Component implements OnInit, OnChanges {
         }
       }
     }
+    this.emptyArr = [];
+    occupancyArray.forEach((columns, row) => {
+      columns.forEach((label, col) => {
+        if (label === '.') {
+          this.emptyArr.push({
+            x: { grid: this.gridRowZoomed, start: col, count: 1 },
+            y: { grid: this.gridColZoomed, start: row, count: 1 },
+          });
+        }
+      });
+    });
     // To preserve the original object
     occupancyArray.forEach((element, i) => {
       this.grid[i] = element;
@@ -137,6 +149,31 @@ export class GridEdit2Component implements OnInit, OnChanges {
     };
   }
 
+  triggerSwap(step: StepsCfg) {
+    if (!this.swapTarget) {
+      this.swapTarget = step;
+    } else if (this.swapTarget === step) {
+      this.swapTarget = null;
+    } else {
+      if (this.swapTarget.label && step.label) {
+        const tmp = this.swapTarget.label;
+        this.swapTarget.label = step.label;
+        step.label = tmp;
+      } else {
+        const tmpX = this.swapTarget.x;
+        const tmpY = this.swapTarget.y;
+        this.swapTarget.x = step.x;
+        this.swapTarget.y = step.y;
+        step.x = tmpX;
+        step.y = tmpY;
+        // todo: Change not detected in stepsArr
+        this.stepsArr = JSON.parse(JSON.stringify(this.stepsArr));
+      }
+      this.swapTarget = null;
+      this.onStepsChange();
+    }
+  }
+
   private createGridObj(
     gridArr: string[][],
     gridRow: number[],
@@ -166,6 +203,11 @@ export class GridEdit2Component implements OnInit, OnChanges {
           this.colors[gridObj.label] = this.colors[gridObj.label]
             ? this.colors[gridObj.label]
             : Math.floor(Math.random() * 16777215).toString(16);
+        } else {
+          this.emptyArr.push({
+            x: { grid: gridCol, start: col, count: 1 },
+            y: { grid: gridRow, start: row, count: 1 },
+          });
         }
       });
     });

@@ -41,10 +41,26 @@
   <div class="main-content">
     <ng-content></ng-content>
   </div>
-  <div class="zone top" (mouseover)="mouseover($event, 'y', -1)"></div>
-  <div class="zone bottom" (mouseover)="mouseover($event, 'y', 1)"></div>
-  <div class="zone left" (mouseover)="mouseover($event, 'x', -1)"></div>
-  <div class="zone right" (mouseover)="mouseover($event, 'x', 1)"></div>
+  <div
+    class="zone top"
+    (mouseover)="mouseover($event, 'y', -1)"
+    *ngIf="isEditable"
+  ></div>
+  <div
+    class="zone bottom"
+    (mouseover)="mouseover($event, 'y', 1)"
+    *ngIf="isEditable"
+  ></div>
+  <div
+    class="zone left"
+    (mouseover)="mouseover($event, 'x', -1)"
+    *ngIf="isEditable"
+  ></div>
+  <div
+    class="zone right"
+    (mouseover)="mouseover($event, 'x', 1)"
+    *ngIf="isEditable"
+  ></div>
 </div>
 
 <div

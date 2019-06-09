@@ -25,6 +25,8 @@ export class ResizableDivComponent implements OnInit {
   public stepsChange = new EventEmitter<StepsCfg>();
   @Input()
   public canGrow: (str: number, axis: string) => boolean;
+  @Input()
+  isEditable = true;
 
   dimension = {
     x: 0,
