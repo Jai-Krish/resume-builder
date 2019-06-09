@@ -1,27 +1,22 @@
 <div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="50" fxFlexFill fxLayout="column">
-    <div fxFlex="60">
-      <div
-        app-content-block
-        [schemaRefs]="schemasRef"
-        [data]="data"
-        [templates]="templates"
-        (curGrid)="currGrid = $event"
-        fxFlexFill
-      ></div>
-    </div>
-    <div fxFlex="40" fxFlexFill>
-      <app-grid-edit [gridData]="currGrid?.gridAreas"></app-grid-edit>
-    </div>
+    <div
+      app-content-block
+      [schemaRefs]="schemasRef"
+      [data]="data"
+      [templates]="templates"
+      (curGrid)="currGrid = $event"
+      fxFlexFill
+    ></div>
   </div>
   <div fxFlex="50" fxFlexFill fxLayout="column">
-    <app-grid-edit2
+    <app-grid-edit
       fxFlex="90"
       [grid]="currGrid?.gridAreas"
       [grdRow]="currGrid?.gridRows"
       [grdCol]="currGrid?.gridColumns"
       [zoom]="zoom"
-    ></app-grid-edit2>
+    ></app-grid-edit>
 
     <div fxFlex="10" fxLayout="row">
       <button
@@ -31,18 +26,6 @@
         [disabled]="!currGrid"
       >
         Save
-      </button>
-      <button
-        fxFlexFill
-        fxFlex="45"
-        (click)="
-          templates = templates
-            ? undefined
-            : { gdRow: gdRowsTemplate, gdCol: gdColsTemplate }
-        "
-        [disabled]="!currGrid"
-      >
-        Edit
       </button>
       <input
         fxFlex="10"
