@@ -11,7 +11,7 @@ export class ResumeViewComponent implements OnInit {
   public basicInfo = {};
   public schemasRef: DocumentReference[];
   public currGrid;
-  public zoom = 2;
+  public zoom = 4;
   public data: { [key: string]: any };
   templates;
 

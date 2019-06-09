@@ -1,11 +1,15 @@
-<div>
+<div class="wrapper">
   <input
     *ngIf="unit !== ''"
     type="number"
     [value]="rowNumber"
     (change)="onRowChange($event.target.value)"
   />
-  <select [value]="unit" (change)="unitChanged($event.target.value)">
+  <select
+    [value]="unit"
+    (change)="unitChanged($event.target.value)"
+    [style.width]="unit !== '' ? '35px' : '100%'"
+  >
     <option value="">auto</option>
     <option value="%">%</option>
     <option value="px">px</option>

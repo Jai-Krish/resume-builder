@@ -1,10 +1,14 @@
-div {
+.wrapper {
   input {
-    width: 40px;
+    width: 34px;
+  }
+  select {
+    height: 22px;
   }
   position: absolute;
   bottom: 0;
   right: 0;
+  width: 69px;
 }
 
 :host {

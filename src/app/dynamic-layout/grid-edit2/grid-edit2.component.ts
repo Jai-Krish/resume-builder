@@ -202,7 +202,9 @@ export class GridEdit2Component implements OnInit, OnChanges {
           }
           this.colors[gridObj.label] = this.colors[gridObj.label]
             ? this.colors[gridObj.label]
-            : Math.floor(Math.random() * 16777215).toString(16);
+            : (
+                '000000' + Math.floor(Math.random() * 16777215).toString(16)
+              ).substr(-6);
         } else {
           this.emptyArr.push({
             x: { grid: gridCol, start: col, count: 1 },
