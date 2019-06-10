@@ -13,33 +13,53 @@
       </mat-card>
     </div>
   </div>
-  <div fxFlex="50" fxFlexFill fxLayout="column">
+  <div fxFlex="50" fxFlexFill fxLayout="column" class="grid-edit">
     <app-grid-edit
-      fxFlex="90"
+      fxFlex="100"
       [grid]="currGrid?.gridAreas"
       [grdRow]="currGrid?.gridRows"
       [grdCol]="currGrid?.gridColumns"
       [zoom]="zoom"
     ></app-grid-edit>
-
-    <div fxFlex="10" fxLayout="row">
+    <div
+      class="zoom-control"
+      *ngIf="currGrid"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+    >
       <button
-        fxFlexFill
-        fxFlex="45"
-        (click)="saveGrid()"
-        [disabled]="!currGrid"
+        class="center-v"
+        mat-icon-button
+        aria-label="zoom out"
+        (click)="zoom = zoom - 1"
       >
-        Save
+        <mat-icon>zoom_out</mat-icon>
       </button>
-      <input
-        fxFlex="10"
-        type="number"
-        [value]="zoom"
-        (change)="zoom = $event.target.value"
-      />
+      <div class="center-v">
+        {{ zoom }}
+      </div>
+      <button
+        class="center-v"
+        mat-icon-button
+        aria-label="zoom in"
+        (click)="zoom = zoom + 1"
+      >
+        <mat-icon>zoom_in</mat-icon>
+      </button>
     </div>
   </div>
 </div>
+<button
+  mat-mini-fab
+  class="btn-save"
+  (click)="saveGrid()"
+  [disabled]="!currGrid"
+  color="primary"
+>
+  <mat-icon aria-hidden="false" aria-label="save">
+    save
+  </mat-icon>
+</button>
 
 <ng-template #gdRowsTemplate let-gdRows>
   <app-grid-row-col

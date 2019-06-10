@@ -19,3 +19,23 @@ $width: ((210/297) * 100) + vh;
 .scrollable {
   overflow: scroll;
 }
+
+.btn-save {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
+.center-v {
+  margin: auto 0 auto 0;
+}
+
+.grid-edit {
+  position: relative;
+
+  .zoom-control {
+    position: absolute;
+    bottom: 0;
+    left: 45%;
+  }
+}
