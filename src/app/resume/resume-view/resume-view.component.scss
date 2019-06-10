@@ -2,3 +2,20 @@ app-resizable-div {
   height: 100px;
   width: 100px;
 }
+
+$height: (((297/210) * 100) * 0.5) + vw;
+$width: ((210/297) * 100) + vh;
+.container {
+  width: 100%;
+  max-width: 21cm;
+  height: $height;
+  max-height: 29.7cm;
+  padding: 2px;
+  mat-card {
+    height: 100%;
+  }
+}
+
+.scrollable {
+  overflow: scroll;
+}

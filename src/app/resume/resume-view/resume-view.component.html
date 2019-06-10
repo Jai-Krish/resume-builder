@@ -1,13 +1,17 @@
 <div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
-  <div fxFlex="50" fxFlexFill fxLayout="column">
-    <div
-      app-content-block
-      [schemaRefs]="schemasRef"
-      [data]="data"
-      [templates]="templates"
-      (curGrid)="currGrid = $event"
-      fxFlexFill
-    ></div>
+  <div class="scrollable" fxFlex="50" fxFlexFill fxLayout="column">
+    <div class="container">
+      <mat-card>
+        <div
+          app-content-block
+          [schemaRefs]="schemasRef"
+          [data]="data"
+          [templates]="templates"
+          (curGrid)="currGrid = $event"
+          fxFlexFill
+        ></div>
+      </mat-card>
+    </div>
   </div>
   <div fxFlex="50" fxFlexFill fxLayout="column">
     <app-grid-edit
