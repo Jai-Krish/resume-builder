@@ -7,9 +7,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class GridRowColComponent implements OnInit {
   @Input()
-  row: string;
+  data: string;
   @Output()
-  rowChange = new EventEmitter();
+  dataChange = new EventEmitter();
+  @Output()
+  add = new EventEmitter();
+  @Output()
+  remove = new EventEmitter();
 
   rowNumber: number;
 
@@ -18,17 +22,17 @@ export class GridRowColComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const match = this.row.match(/(px|%)/);
+    const match = this.data.match(/(px|%)/);
     if (match && match.length > 0) {
       this.unit = match[0];
-      this.rowNumber = parseInt(this.row.replace(this.unit, ''), 10);
+      this.rowNumber = parseInt(this.data.replace(this.unit, ''), 10);
     } else {
       this.unit = '';
     }
   }
   onRowChange(size: string) {
-    this.row = size + this.unit;
-    this.rowChange.emit(this.row);
+    this.data = size + this.unit;
+    this.dataChange.emit(this.data);
   }
   unitChanged(unit: string) {
     this.unit = unit;

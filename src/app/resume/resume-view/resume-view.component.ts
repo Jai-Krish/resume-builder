@@ -13,7 +13,6 @@ export class ResumeViewComponent implements OnInit {
   public currGrid;
   public zoom = 4;
   public data: { [key: string]: any };
-  templates;
 
   constructor(private resumeSrv: ResumeService) {}
 

@@ -20,9 +20,9 @@ export class GridEditComponent implements OnInit, OnChanges {
   @Input()
   grid: string[][];
   @Input()
-  grdRow: string[];
+  gridRowStr: string[];
   @Input()
-  grdCol: string[];
+  gridColStr: string[];
   @Output()
   gridChange = new EventEmitter<string[][]>();
 
@@ -31,8 +31,8 @@ export class GridEditComponent implements OnInit, OnChanges {
   emptyArr: StepsCfg[] = [];
   swapTarget: StepsCfg;
 
-  private gridCol: number[];
-  private gridRow: number[];
+  private gridColSize: number[];
+  private gridRowSize: number[];
   private gridColZoomed: number[];
   private gridRowZoomed: number[];
 
@@ -40,41 +40,58 @@ export class GridEditComponent implements OnInit, OnChanges {
 
   ngOnInit() {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes) {
     if (changes.grid) {
       if (!this.grid) {
         this.grid = undefined;
         this.stepsArr = undefined;
       }
     }
-    if (changes.grdRow) {
-      this.gridRow = this.grdRow
-        ? Array(this.grdRow.length).fill(100 / this.grdRow.length)
+    if (changes.gridRowStr) {
+      this.gridRowSize = this.gridRowStr
+        ? Array(this.gridRowStr.length).fill(100 / this.gridRowStr.length)
         : [];
     }
-    if (changes.grdCol) {
-      this.gridCol = this.grdCol
-        ? Array(this.grdCol.length).fill(100 / this.grdCol.length)
+    if (changes.gridColStr) {
+      this.gridColSize = this.gridColStr
+        ? Array(this.gridColStr.length).fill(100 / this.gridColStr.length)
         : [];
     }
 
-    this.gridRowZoomed = this.gridRow.map(res => res * this.zoom);
-    this.gridColZoomed = this.gridCol.map(res => res * this.zoom);
-    if (changes.grid || changes.grdRow || changes.grdCol || changes.zoom) {
+    this.gridRowZoomed = this.gridRowSize.map(res => res * this.zoom);
+    this.gridColZoomed = this.gridColSize.map(res => res * this.zoom);
+    if (
+      changes.grid ||
+      changes.gridRowStr ||
+      changes.gridColStr ||
+      changes.zoom
+    ) {
       if (this.grid) {
         this.stepsArr = this.createGridObj(
           this.grid,
           this.gridRowZoomed,
           this.gridColZoomed
         );
+        this.emptyArr = [];
+        this.grid.forEach((columns, row) => {
+          columns.forEach((label, col) => {
+            if (label === '.') {
+              this.emptyArr.push({
+                x: { grid: this.gridColZoomed, start: col, count: 1 },
+                y: { grid: this.gridRowZoomed, start: row, count: 1 },
+              });
+            }
+          });
+        });
       }
     }
   }
 
   onStepsChange() {
-    const occupancyArray = Array(this.gridRow.length)
-      .fill(undefined)
-      .map(_ => Array(this.gridCol.length).fill('.'));
+    this.swapTarget = null;
+    const occupancyArray = Array(this.gridRowSize.length)
+      .fill(Array(this.gridColSize.length).fill('.'))
+      .map(_ => Array(this.gridColSize.length).fill('.'));
     for (const occupant of this.stepsArr) {
       for (let i = 0; i < occupant.y.count; i++) {
         for (let j = 0; j < occupant.x.count; j++) {
@@ -88,8 +105,8 @@ export class GridEditComponent implements OnInit, OnChanges {
       columns.forEach((label, col) => {
         if (label === '.') {
           this.emptyArr.push({
-            x: { grid: this.gridRowZoomed, start: col, count: 1 },
-            y: { grid: this.gridColZoomed, start: row, count: 1 },
+            x: { grid: this.gridColZoomed, start: col, count: 1 },
+            y: { grid: this.gridRowZoomed, start: row, count: 1 },
           });
         }
       });
@@ -172,6 +189,38 @@ export class GridEditComponent implements OnInit, OnChanges {
       this.swapTarget = null;
       this.onStepsChange();
     }
+  }
+
+  addRow(gridRowStr: string[], index: number) {
+    gridRowStr.splice(index + 1, 0, 'auto');
+    this.grid.splice(index + 1, 0, Array(this.grid[0].length).fill('.'));
+    this.ngOnChanges({ gridRowStr: true });
+    this.onStepsChange();
+  }
+
+  removeRow(gridRowStr: string[], index: number) {
+    gridRowStr.splice(index, 1);
+    this.grid.splice(index, 1);
+    this.ngOnChanges({ gridRowStr: true });
+    this.onStepsChange();
+  }
+
+  addCol(gridColStr: string[], index: number) {
+    gridColStr.splice(index + 1, 0, 'auto');
+    this.grid.forEach(res => {
+      res.splice(index + 1, 0, '.');
+    });
+    this.ngOnChanges({ gridColStr: true });
+    this.onStepsChange();
+  }
+
+  removeCol(gridColStr: string[], index: number) {
+    gridColStr.splice(index, 1);
+    this.grid.forEach(res => {
+      res.splice(index, 1);
+    });
+    this.ngOnChanges({ gridColStr: true });
+    this.onStepsChange();
   }
 
   private createGridObj(

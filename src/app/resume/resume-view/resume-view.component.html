@@ -6,7 +6,6 @@
           app-content-block
           [schemaRefs]="schemasRef"
           [data]="data"
-          [templates]="templates"
           (curGrid)="currGrid = $event"
           fxFlexFill
         ></div>
@@ -17,8 +16,8 @@
     <app-grid-edit
       fxFlex="100"
       [grid]="currGrid?.gridAreas"
-      [grdRow]="currGrid?.gridRows"
-      [grdCol]="currGrid?.gridColumns"
+      [gridRowStr]="currGrid?.gridRows"
+      [gridColStr]="currGrid?.gridColumns"
       [zoom]="zoom"
     ></app-grid-edit>
     <div
@@ -60,24 +59,3 @@
     save
   </mat-icon>
 </button>
-
-<ng-template #gdRowsTemplate let-gdRows>
-  <app-grid-row-col
-    *ngFor="let gdRow of gdRows; let i = index"
-    [row]="gdRow"
-    (rowChange)="gdRows[i] = $event"
-    gdColumn="-2 / span 1"
-    [gdRow]="i + 1 + ' / ' + (i + 2)"
-  ></app-grid-row-col>
-</ng-template>
-
-<ng-template #gdColsTemplate let-gdCols>
-  <app-grid-row-col
-    *ngFor="let gdCol of gdCols; let i = index"
-    [row]="gdCol"
-    (rowChange)="gdCols[i] = $event"
-    [gdColumn]="i + 1 + ' / ' + (i + 2)"
-    gdRow="-2 / span 1"
-    style="width: 0"
-  ></app-grid-row-col>
-</ng-template>

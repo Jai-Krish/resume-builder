@@ -9,6 +9,21 @@
   bottom: 0;
   right: 0;
   width: 69px;
+
+  .grid-edit-btns {
+    height: 0 !important;
+    button {
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      mat-icon {
+        height: 22px;
+        width: 22px;
+        line-height: 22px;
+        font-size: 22px;
+      }
+    }
+  }
 }
 
 :host {
