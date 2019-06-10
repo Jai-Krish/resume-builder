@@ -19,12 +19,12 @@ export class GridEditComponent implements OnInit, OnChanges {
   zoom = 2;
   @Input()
   grid: string[][];
+  @Output()
+  gridChange = new EventEmitter<string[][]>();
   @Input()
   gridRowStr: string[];
   @Input()
   gridColStr: string[];
-  @Output()
-  gridChange = new EventEmitter<string[][]>();
 
   colors = {};
   stepsArr: StepsCfg[];
@@ -199,6 +199,12 @@ export class GridEditComponent implements OnInit, OnChanges {
   }
 
   removeRow(gridRowStr: string[], index: number) {
+    for (const grid of this.grid[index]) {
+      if (grid !== '.') {
+        alert('Row not empty');
+        return;
+      }
+    }
     gridRowStr.splice(index, 1);
     this.grid.splice(index, 1);
     this.ngOnChanges({ gridRowStr: true });
@@ -215,6 +221,12 @@ export class GridEditComponent implements OnInit, OnChanges {
   }
 
   removeCol(gridColStr: string[], index: number) {
+    for (const grids of this.grid) {
+      if (grids[index] !== '.') {
+        alert('Column not empty');
+        return;
+      }
+    }
     gridColStr.splice(index, 1);
     this.grid.forEach(res => {
       res.splice(index, 1);
