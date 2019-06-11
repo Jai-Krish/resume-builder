@@ -22,10 +22,9 @@
   *ngFor="let steps of emptyArr"
   [steps]="steps"
   [isEditable]="false"
-  (click)="triggerSwap(steps)"
   [class.selected]="swapTarget === steps"
 >
-  <div class="empty-container">
+  <div class="empty-container" (click)="triggerSwap(steps)">
     <mat-icon
       *ngIf="swapTarget === steps"
       aria-hidden="false"
@@ -33,6 +32,14 @@
       >cached</mat-icon
     >
   </div>
+  <button
+    mat-icon-button
+    color="primary"
+    class="btn-add"
+    (click)="gridAdd.emit({ x: steps.x.start, y: steps.y.start })"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </app-resizable-div>
 <app-grid-row-col
   *ngFor="let gdRow of gridRowStr; let i = index"

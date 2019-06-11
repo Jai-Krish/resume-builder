@@ -5,7 +5,6 @@ import {
   Output,
   EventEmitter,
   OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 import { StepsCfg } from '../resizable-div/resizable-div.component';
 
@@ -25,6 +24,8 @@ export class GridEditComponent implements OnInit, OnChanges {
   gridRowStr: string[];
   @Input()
   gridColStr: string[];
+  @Output()
+  gridAdd = new EventEmitter<{ x: number; y: number }>();
 
   colors = {};
   stepsArr: StepsCfg[];

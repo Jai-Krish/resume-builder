@@ -5,9 +5,10 @@
 
 app-resizable-div {
   position: absolute;
+  opacity: 0.8;
   &.selected,
   &:hover {
-    opacity: 0.7;
+    opacity: 1;
   }
 }
 
@@ -30,4 +31,14 @@ app-resizable-div {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+.btn-add {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
 }

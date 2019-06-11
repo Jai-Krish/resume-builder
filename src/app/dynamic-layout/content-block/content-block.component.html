@@ -1,5 +1,5 @@
 <ng-container *ngFor="let schema$ of schemas">
-  <ng-container *ngIf="schema$ | async as schema">
+  <ng-container *ngIf="onSchemaLoad(schema$ | async) as schema">
     <ng-container [ngSwitch]="schema.type">
       <ng-container *ngSwitchCase="FieldTypes.container">
         <div

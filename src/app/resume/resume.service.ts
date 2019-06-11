@@ -24,4 +24,16 @@ export class ResumeService {
       gridColumns: schema.gridColumns,
     });
   }
+
+  async addGrid(grid: Schema, schemaId: string, gridAreas: string[][]) {
+    const schemasCollection = this.db.collection<Schema>('schemas');
+    const ref = await schemasCollection.add(grid);
+    const schemaChild = schemasCollection.doc(schemaId);
+    const target = (await schemaChild.get().toPromise()).data();
+    target.child.push(ref);
+    return schemaChild.update({
+      child: target.child,
+      gridAreas: gridAreas.map(res => res.join(' ')),
+    });
+  }
 }

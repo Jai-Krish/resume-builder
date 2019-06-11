@@ -7,6 +7,7 @@ export interface Schema {
   gridArea?: string;
   gridAreas?: string[][];
   gridRows?: string[];
+  gridColumns?: string[];
   child?: DocumentReference[];
   path?: string;
   style?: Map<string, string>;

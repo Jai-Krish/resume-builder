@@ -19,6 +19,7 @@
       [gridRowStr]="currGrid?.gridRows"
       [gridColStr]="currGrid?.gridColumns"
       [zoom]="zoom"
+      (gridAdd)="addGrid($event)"
     ></app-grid-edit>
     <div
       class="zoom-control"

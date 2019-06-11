@@ -29,6 +29,7 @@ export class ContentBlockComponent implements OnChanges, OnInit {
   public templates: { gdRow: typeof TemplateRef; gdCol: typeof TemplateRef };
   public schemas: Observable<Schema>[];
   public FieldTypes = FieldTypes;
+  private curGridObj: { path: string; data: string[][] };
 
   constructor(private layoutSrv: DynamicLayoutService) {}
 
@@ -36,7 +37,8 @@ export class ContentBlockComponent implements OnChanges, OnInit {
     console.log('data', this.data);
   }
 
-  editGrid(schema) {
+  editGrid(schema: { path: string; data: string[][] }) {
+    this.curGridObj = schema;
     this.curGrid.emit(schema);
   }
 
@@ -64,5 +66,15 @@ export class ContentBlockComponent implements OnChanges, OnInit {
         }
       })
       .join(' | ');
+  }
+
+  onSchemaLoad(schema: { path: string; data: string[][] }) {
+    if (schema && this.curGridObj && schema.path === this.curGridObj.path) {
+      if (schema !== this.curGridObj) {
+        this.curGridObj = schema;
+        this.curGrid.emit(this.curGridObj);
+      }
+    }
+    return schema;
   }
 }
