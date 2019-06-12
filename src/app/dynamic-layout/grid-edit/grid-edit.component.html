@@ -3,7 +3,7 @@
   [(steps)]="steps"
   (stepsChange)="onStepsChange()"
   [canGrow]="canGrow(steps)"
-  [style.background-color]="'#' + colors[steps.label]"
+  [style.background-color]="colors[steps.label]"
   [class.selected]="swapTarget === steps"
 >
   <div class="label-container" (click)="triggerSwap(steps)">

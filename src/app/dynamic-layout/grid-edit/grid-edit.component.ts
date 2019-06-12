@@ -6,6 +6,7 @@ import {
   EventEmitter,
   OnChanges,
 } from '@angular/core';
+import * as randomColor from 'randomcolor';
 import { StepsCfg } from '../resizable-div/resizable-div.component';
 
 @Component({
@@ -266,9 +267,7 @@ export class GridEditComponent implements OnInit, OnChanges {
           }
           this.colors[gridObj.label] = this.colors[gridObj.label]
             ? this.colors[gridObj.label]
-            : (
-                '000000' + Math.floor(Math.random() * 16777215).toString(16)
-              ).substr(-6);
+            : randomColor({ luminosity: 'light' });
         } else {
           this.emptyArr.push({
             x: { grid: gridCol, start: col, count: 1 },
