@@ -27,7 +27,7 @@ export class ResumeViewComponent implements OnInit {
   }
 
   saveGrid() {
-    this.resumeSrv.saveGrid(this.currGrid);
+    return this.resumeSrv.saveGrid(this.currGrid);
   }
 
   addGrid(coords: { x: number; y: number }) {
@@ -40,7 +40,7 @@ export class ResumeViewComponent implements OnInit {
         gridArea,
       };
       this.currGrid.gridAreas[coords.y][coords.x] = gridArea;
-      this.resumeSrv.addGrid(schema, this.currGrid.id, this.currGrid.gridAreas);
+      this.resumeSrv.addGrid(schema, this.currGrid, this.currGrid.gridAreas);
     }
   }
 
@@ -48,7 +48,7 @@ export class ResumeViewComponent implements OnInit {
     if (confirm(`Delete grid ${gridArea}?`)) {
       this.resumeSrv.removeGrid(
         gridArea,
-        this.currGrid.id,
+        this.currGrid,
         this.currGrid.gridAreas
       );
     }

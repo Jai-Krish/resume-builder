@@ -25,20 +25,27 @@ export class ResumeService {
     });
   }
 
-  async addGrid(grid: Schema, schemaId: string, gridAreas: string[][]) {
+  async addGrid(grid: Schema, containerSchema: Schema, gridAreas: string[][]) {
     const schemasCollection = this.db.collection<Schema>('schemas');
     const ref = await schemasCollection.add(grid);
-    const schemaChild = schemasCollection.doc(schemaId);
+    const schemaChild = schemasCollection.doc(containerSchema.id);
     const target = (await schemaChild.get().toPromise()).data();
     target.child.push(ref);
+
     return schemaChild.update({
       child: target.child,
       gridAreas: gridAreas.map(res => res.join(' ')),
+      gridRows: containerSchema.gridRows,
+      gridColumns: containerSchema.gridColumns,
     });
   }
 
-  async removeGrid(gridArea: string, schemaId: string, gridAreas: string[][]) {
-    const schemaRef = this.db.doc(`schemas/${schemaId}`);
+  async removeGrid(
+    gridArea: string,
+    containerSchema: Schema,
+    gridAreas: string[][]
+  ) {
+    const schemaRef = this.db.doc(`schemas/${containerSchema.id}`);
     const schema = (await schemaRef.get().toPromise()).data() as Schema;
     const childPromises = schema.child.map(ref => ref.get());
     const childSchemas = await Promise.all(childPromises);
@@ -61,6 +68,8 @@ export class ResumeService {
     batch.update(schemaRef.ref, {
       child: schema.child,
       gridAreas: gridAreas.map(res => res.join(' ')),
+      gridRows: containerSchema.gridRows,
+      gridColumns: containerSchema.gridColumns,
     });
     return batch.commit();
   }
