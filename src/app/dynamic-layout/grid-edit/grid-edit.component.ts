@@ -279,4 +279,8 @@ export class GridEditComponent implements OnInit, OnChanges {
     });
     return Object.values(result);
   }
+
+  trackByIndex(index: number) {
+    return index;
+  }
 }
