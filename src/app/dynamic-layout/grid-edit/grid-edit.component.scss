@@ -37,7 +37,10 @@ app-resizable-div {
   position: absolute;
   top: 0;
   right: 0;
-  opacity: 0.5;
+  opacity: 0;
+  .empty-container:hover + & {
+    opacity: 0.5;
+  }
   &:hover {
     opacity: 1;
   }
@@ -47,7 +50,10 @@ app-resizable-div {
   position: absolute;
   top: 0;
   right: 0;
-  opacity: 0.5;
+  opacity: 0;
+  .label-container:hover + & {
+    opacity: 0.5;
+  }
   &:hover {
     opacity: 1;
   }
