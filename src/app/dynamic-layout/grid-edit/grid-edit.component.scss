@@ -42,3 +42,13 @@ app-resizable-div {
     opacity: 1;
   }
 }
+
+.btn-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
+}

@@ -26,6 +26,8 @@ export class GridEditComponent implements OnInit, OnChanges {
   gridColStr: string[];
   @Output()
   gridAdd = new EventEmitter<{ x: number; y: number }>();
+  @Output()
+  gridRemove = new EventEmitter<string>();
 
   colors = {};
   stepsArr: StepsCfg[];

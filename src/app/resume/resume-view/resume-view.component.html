@@ -20,6 +20,7 @@
       [gridColStr]="currGrid?.gridColumns"
       [zoom]="zoom"
       (gridAdd)="addGrid($event)"
+      (gridRemove)="removeGrid($event)"
     ></app-grid-edit>
     <div
       class="zoom-control"

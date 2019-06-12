@@ -17,6 +17,14 @@
       >cached</mat-icon
     >
   </div>
+  <button
+    mat-icon-button
+    color="warn"
+    class="btn-remove"
+    (click)="gridRemove.emit(steps.label)"
+  >
+    <mat-icon>remove</mat-icon>
+  </button>
 </app-resizable-div>
 <app-resizable-div
   *ngFor="let steps of emptyArr"

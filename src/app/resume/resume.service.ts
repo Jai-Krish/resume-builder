@@ -36,4 +36,32 @@ export class ResumeService {
       gridAreas: gridAreas.map(res => res.join(' ')),
     });
   }
+
+  async removeGrid(gridArea: string, schemaId: string, gridAreas: string[][]) {
+    const schemaRef = this.db.doc(`schemas/${schemaId}`);
+    const schema = (await schemaRef.get().toPromise()).data() as Schema;
+    const childPromises = schema.child.map(ref => ref.get());
+    const childSchemas = await Promise.all(childPromises);
+    const batch = this.db.firestore.batch();
+    for (let i = 0; i < childSchemas.length; i++) {
+      const childSchema = childSchemas[i];
+      if (childSchema.data().gridArea === gridArea) {
+        batch.delete(this.db.doc(childSchema.ref.path).ref);
+        schema.child.splice(i, 1);
+        break;
+      }
+    }
+    gridAreas.forEach((row, i) => {
+      row.forEach((col, j) => {
+        if (col === gridArea) {
+          gridAreas[i][j] = '.';
+        }
+      });
+    });
+    batch.update(schemaRef.ref, {
+      child: schema.child,
+      gridAreas: gridAreas.map(res => res.join(' ')),
+    });
+    return batch.commit();
+  }
 }

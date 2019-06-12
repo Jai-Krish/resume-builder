@@ -32,13 +32,26 @@ export class ResumeViewComponent implements OnInit {
 
   addGrid(coords: { x: number; y: number }) {
     const gridArea = this.makeId(5);
-    const schema: Schema = {
-      type: FieldTypes.text,
-      field: prompt('Field name'),
-      gridArea,
-    };
-    this.currGrid.gridAreas[coords.y][coords.x] = gridArea;
-    this.resumeSrv.addGrid(schema, this.currGrid.id, this.currGrid.gridAreas);
+    const field = prompt('Field name');
+    if (field) {
+      const schema: Schema = {
+        type: FieldTypes.text,
+        field,
+        gridArea,
+      };
+      this.currGrid.gridAreas[coords.y][coords.x] = gridArea;
+      this.resumeSrv.addGrid(schema, this.currGrid.id, this.currGrid.gridAreas);
+    }
+  }
+
+  removeGrid(gridArea: string) {
+    if (confirm(`Delete grid ${gridArea}?`)) {
+      this.resumeSrv.removeGrid(
+        gridArea,
+        this.currGrid.id,
+        this.currGrid.gridAreas
+      );
+    }
   }
 
   private makeId(length: number) {
