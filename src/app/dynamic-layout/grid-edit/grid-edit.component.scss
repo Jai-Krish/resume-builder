@@ -1,3 +1,5 @@
+$btn-size: 22px;
+
 :host {
   position: relative;
   overflow: auto;
@@ -44,6 +46,15 @@ app-resizable-div {
   &:hover {
     opacity: 1;
   }
+  width: $btn-size;
+  height: $btn-size;
+  line-height: $btn-size;
+  mat-icon {
+    height: $btn-size;
+    width: $btn-size;
+    line-height: $btn-size;
+    font-size: $btn-size;
+  }
 }
 
 .btn-remove {
@@ -56,5 +67,14 @@ app-resizable-div {
   }
   &:hover {
     opacity: 1;
+  }
+  width: $btn-size;
+  height: $btn-size;
+  line-height: $btn-size;
+  mat-icon {
+    height: $btn-size;
+    width: $btn-size;
+    line-height: $btn-size;
+    font-size: $btn-size;
   }
 }

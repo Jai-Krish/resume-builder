@@ -8,7 +8,9 @@
   <select
     [value]="unit"
     (change)="unitChanged($event.target.value)"
-    [style.width]="unit !== '' ? '35px' : '100%'"
+    [style.width]="unit !== '' ? '37px' : '50px'"
+    [style.margin-left]="unit !== '' ? '-37px' : '0'"
+    [style.border-left]="unit !== '' ? '0' : '1px solid transparent'"
   >
     <option value="">auto</option>
     <option value="%">%</option>

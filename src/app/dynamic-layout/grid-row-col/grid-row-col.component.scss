@@ -1,9 +1,13 @@
 .wrapper {
   input {
-    width: 34px;
+    width: 58px;
+    border-color: transparent;
+    border: solid 1px transparent;
+    border-right: 0;
   }
   select {
-    height: 22px;
+    border-color: transparent;
+    height: 20px;
   }
   position: absolute;
   bottom: 0;
@@ -21,6 +25,10 @@
         width: 22px;
         line-height: 22px;
         font-size: 22px;
+        opacity: 0.2;
+      }
+      &:hover mat-icon {
+        opacity: 1;
       }
     }
   }
