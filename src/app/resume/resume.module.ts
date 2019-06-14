@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 import { ResumeRoutingModule } from './resume-routing.module';
 import { ResumeViewComponent } from './resume-view/resume-view.component';
@@ -14,6 +15,7 @@ import { AppMaterialModule } from '../app-material/app-material.module';
     ResumeRoutingModule,
     FlexLayoutModule,
     DynamicLayoutModule,
+    NgScrollbarModule,
     AppMaterialModule,
   ],
 })

@@ -1,5 +1,11 @@
 <div class="main" fxFlexFill fxLayout="row" fxLayoutAlign="space-around center">
-  <div class="scrollable" fxFlex="50" fxFlexFill fxLayout="column">
+  <ng-scrollbar
+    shown="hover"
+    compact="true"
+    fxFlex="50"
+    fxFlexFill
+    fxLayout="column"
+  >
     <div class="container">
       <mat-card>
         <div
@@ -11,7 +17,7 @@
         ></div>
       </mat-card>
     </div>
-  </div>
+  </ng-scrollbar>
   <div fxFlex="50" fxFlexFill fxLayout="column" class="grid-edit">
     <app-grid-edit
       fxFlex="100"
